@@ -1,3 +1,10 @@
+/*
+Alunos:
+Rodrigo Queiroz Neves,           12111BSI220
+Emanuel Henrique Vieira Dias,    12111BSI218
+Daniel de Souza Cordeiro,        12111BSI244
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -12,6 +19,7 @@ typedef struct node Node;
 Node *newNode(int number);
 short insertNode(Node **list, Node *newNode);
 void printList(Node *list);
+void freeList(Node *list);
 
 // FUNCTIONS THAT DEAL WITH THE PROBLEM CASES
 short member(Node *list, int element);
@@ -23,8 +31,8 @@ int listSize(Node *list);
 
 int main(void)
 {
-    int belong, nthElement;
-    scanf("%d %d", &belong, &nthElement);
+    int belong, n;
+    scanf("%d %d", &belong, &n);
 
     if(nthElement < 0)
     {
@@ -40,9 +48,8 @@ int main(void)
     Node *nodeToInsert = NULL;
 
     int element;
-    for(int i = 0; i < numberOfElements; i++)
+    while(scanf("%d", &element) != EOF)
     {
-        scanf("%d", &element);
         nodeToInsert = newNode(element);
         // I'm passing the adress of the list, so I can change what it's pointing to
         insertNode(&list, nodeToInsert);
@@ -51,8 +58,13 @@ int main(void)
     printf("Is %d member of List? %hd\n", belong, member(list, belong));
     printf("Last element: %d\n", lastElement(list));
     printf("Sum of all list's elements: %d\n", sumElements(list));
+    printf("Sum of all list's odd numbers: %d\n", sumOddNumbers(list));
+    printf("The %dth element is: %d\n", n, nthElement(list, n));
+    printf("List's size: %d\n", listSize(list));
 
     printList(list);
+
+    freeList(list);
 
     return 0;
 }
@@ -78,7 +90,7 @@ int listSize(Node *list)
 int nthElement(Node *list, int n)
 {
     // If the user inputs a invalid number or the list is NULL
-    if(n <= 0 || list == NULL)
+    if(n <= 0 || list == NULL || n > listSize(list))
     {
         return 0;
     }
@@ -121,7 +133,7 @@ int sumElements(Node *list)
     }
     else
     {
-        return list->number + sumElements(list);
+        return list->number + sumElements(list->next);
     }
 }
 
@@ -217,4 +229,21 @@ void printList(Node *list)
         printList(list->next);
     }
     return;
+}
+
+// Frees the entire list
+void freeList(Node *list)
+{
+    // List is empty, nothing to free
+    if(list == NULL)
+    {
+        return;
+    }
+    // Frees the next nodes and than the actual node
+    else
+    {
+        freeList(list->next);
+        free(list);
+        return;
+    }
 }
