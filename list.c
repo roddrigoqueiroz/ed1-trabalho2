@@ -44,6 +44,7 @@ int main(void)
     Node *nodeToInsert = NULL;
 
     int element;
+    // Reads the entire file until reaches EOF (EOF is returned in case scanf fails or reaches EOF)
     while(scanf("%d", &element) != EOF)
     {
         nodeToInsert = newNode(element);
