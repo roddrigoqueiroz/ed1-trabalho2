@@ -40,10 +40,6 @@ int main(void)
         return 1;
     }
 
-    int numberOfElements;
-    printf("Type the number of elements in the list: ");
-    scanf("%d", &numberOfElements);
-
     Node *list = NULL;
     Node *nodeToInsert = NULL;
 
